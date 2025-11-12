@@ -49,23 +49,23 @@ describe('AllPerks page (Directory)', () => {
   - verify the record is displayed
   - verify the summary text reflects the number of matching perks
   */
- test*('test merchant filtering', async () => {
-    const seededPerk = global.__TEST_CONTEXT__.seededPerk;
-    renderWithRouter(
-      <Routes>
-        <Route path="/explore" element={<AllPerks />} />
-      </Routes>,
-      { initialEntries: ['/explore'] }
-    );
-    await waitFor(() => {
-      expect(screen.getByText(seededPerk.title)).toBeInTheDocument();
-    });
-    const merchantFilter = screen.getByLabelText('Filter by Merchant');
-    fireEvent.change(merchantFilter, { target: { value: seededPerk.merchant } });
+ //merchant filter is button i sshould press 
+test('test merchant filtering using dropdown', async () => {
+  const seededPerk = global.__TEST_CONTEXT__.seededPerk;
 
-    await waitFor(() => {
-      expect(screen.getByText(seededPerk.title)).toBeInTheDocument();
-    });
-    expect(screen.getByText(/showing/i)).toHaveTextContent('Showing');  
+  renderWithRouter(
+    <Routes>
+      <Route path="/explore" element={<AllPerks />} />
+    </Routes>,
+    { initialEntries: ['/explore'] }
+  );
+  await waitFor(() => {
+    expect(screen.getByText(seededPerk.title)).toBeInTheDocument();
   });
-});
+  const merchantDropdown = screen.getByLabelText('Filter by Merchant');
+  fireEvent.change(merchantDropdown, { target: { value: seededPerk.merchant } });
+  await waitFor(() => {
+    expect(screen.getByText(seededPerk.title)).toBeInTheDocument();
+  });
+  expect(screen.getByText(/showing/i)).toHaveTextContent('Showing');    
+})});
